@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = "Populate"
   s.version          = "1.0"
-  s.summary          = "A short description of Populate."
+  s.summary          = "Populate your views with NSFetchedResultsController-like behaviour. 100% Swift, type-safe protocol-orientated design."
   s.homepage         = "https://github.com/shaps80/Populate"
   s.license          = 'MIT'
   s.author           = { "Shaps Mohsenin" => "shapsuk@me.com" }
