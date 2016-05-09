@@ -79,7 +79,7 @@ class PeopleViewController: UIViewController, DataCoordinatorCellProviding, Data
   }
   
   func dataCoordinator<V : DataView>(dataView: V, cellConfigurationForIndexPath indexPath: NSIndexPath) -> DataCellConfiguration {
-    return DataCellConfiguration(dataView: dataView, reuseIdentifier: "Cell", indexPath: indexPath, configuration: { (cell: UITableViewCell) in
+    return DataCellConfiguration(dataView: dataView, reuseIdentifier: "Cell", indexPath: indexPath, registerCell: false, configuration: { (cell: UITableViewCell) in
       let person = dataCoordinator?.dataProvider.itemAtIndexPath(indexPath)
       cell.textLabel?.text = person?.name
     })
