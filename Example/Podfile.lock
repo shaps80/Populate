@@ -1,0 +1,19 @@
+PODS:
+  - Populate (1.0)
+  - Stack (2.0.0)
+
+DEPENDENCIES:
+  - Populate (from `../`)
+  - Stack (from `../../Stack`)
+
+EXTERNAL SOURCES:
+  Populate:
+    :path: ../
+  Stack:
+    :path: ../../Stack
+
+SPEC CHECKSUMS:
+  Populate: 13fec932e64a8c04da0508d352f0047ac56fb658
+  Stack: b2a77662cf52a7f3449812ee259613cd013f5296
+
+COCOAPODS: 0.39.0
