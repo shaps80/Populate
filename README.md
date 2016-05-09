@@ -1,6 +1,5 @@
 # Populate
 
-[![CI Status](http://img.shields.io/travis/shaps80/Populate.svg?style=flat)](https://travis-ci.org/Shaps Mohsenin/Populate)
 [![Version](https://img.shields.io/cocoapods/v/Populate.svg?style=flat)](http://cocoapods.org/pods/Populate)
 [![License](https://img.shields.io/cocoapods/l/Populate.svg?style=flat)](http://cocoapods.org/pods/Populate)
 [![Platform](https://img.shields.io/cocoapods/p/Populate.svg?style=flat)](http://cocoapods.org/pods/Populate)
