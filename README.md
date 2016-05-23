@@ -1,5 +1,6 @@
 # Populate
 
+
 [![Version](https://img.shields.io/cocoapods/v/Populate.svg?style=flat)](http://cocoapods.org/pods/Populate)
 [![License](https://img.shields.io/cocoapods/l/Populate.svg?style=flat)](http://cocoapods.org/pods/Populate)
 [![Platform](https://img.shields.io/cocoapods/p/Populate.svg?style=flat)](http://cocoapods.org/pods/Populate)
@@ -8,13 +9,13 @@
 
 Often in our iOS apps, we need to populate a `UITableView` or `UICollectionView` with some data.
 
-When using CoreData, this is a fairly trivial task since `NSFetchedResultsController` does most of the heavy lifting for us. 
+When using CoreData, this is a fairly trivial task since `NSFetchedResultsController` does most of the heavy lifting for us.
 
 ## Introducing Populate
 
 Here's a few reason you should start using Populate in your projects now:
 
-- 100% Swift 
+- 100% Swift
 - Protocol-Oriented architecture
 - Type-safety (Views, Cells and Data)
 - Supports both **value** and/or **reference** types
@@ -45,16 +46,16 @@ Lets start by settings up the `DataCoordinator`:
 @import Populate
 
 final class PeopleViewController: UITableViewController, DataCoordinatorCellProviding {
-    
+
   // Popoulate uses a coordinator to manage your view, its cells and the associated data
   private var dataCoordinator: DataCoordinator<UITableView, ArrayDataProvider<Person>>?
-    
+
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     // We initialize the coordinator with a dataView, cellProvider and a dataProvider configuration
     dataCoordinator = DataCoordinator(dataView: tableView, cellProvider: self) {
-    
+
       // So lets seed our dataProvider for convenience
       let provider = ArrayDataProvider(items: [
         Person(name: "Shaps", address: Address(postcode: "W5")),
@@ -64,11 +65,11 @@ final class PeopleViewController: UITableViewController, DataCoordinatorCellProv
         Person(name: "Daniela", address: Address(postcode: "N1")),
         Person(name: "Luciano", address: Address(postcode: "SW4")),
       ])
-      
-      // We can specify a sectionNameKeyPath 
+
+      // We can specify a sectionNameKeyPath
       provider.sectionNameKeyPath = "address.postcode"
-     
-      // Finally, lets return our provider along with some additional filtering and sort functions 
+
+      // Finally, lets return our provider along with some additional filtering and sort functions
       return provider
         .filter { $0.address?.postcode != "SW4" }
         .sort { $0.address?.postcode < $1.address?.postcode }
@@ -94,7 +95,7 @@ func dataCoordinator<V : DataView>(dataView: V, cellConfigurationForIndexPath in
 }
 ```
 
-Ok, so setting up the cell looks complicated, but in actual fact, you're basically just passing the params through to the `DataCellConfiguration`. 
+Ok, so setting up the cell looks complicated, but in actual fact, you're basically just passing the params through to the `DataCellConfiguration`.
 
 This is a special class that allows multiple, type-safe cells to be configured from a single function.
 
@@ -104,7 +105,7 @@ Note: This will not work for cells loaded from storyboards or nibs. If you are u
 
 ## ArrayDataProvider
 
-A `DataProvider` is simply a protocol, however Populate includes an array-based provider by default. 
+A `DataProvider` is simply a protocol, however Populate includes an array-based provider by default.
 
 This allows you to pass a flat array, and get all the benefits you traditionally get via `NSFetchedResultsController`.
 
