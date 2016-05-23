@@ -272,16 +272,17 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
     
     // --- The code above temporarily disables updates from being sent while we construct the sections
     
-    if reloadHandler == nil {
+    guard let reloadHandler = reloadHandler else {
       return
     }
     
+    sections.removeAll()
+    
     guard var items = self.items else {
-      sections.removeAll()
-      reloadHandler?()
+      reloadHandler()
       return
     }
-
+    
     if let sort = self.itemSort.first {
       items.sortInPlace(sort)
     }
@@ -305,7 +306,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
       }
     }
     
-    reloadHandler?()
+    reloadHandler()
     
     // --- Now we can re-wire the update handlers
     

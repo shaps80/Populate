@@ -52,8 +52,6 @@ public protocol KVCodable {
   
 }
 
-extension NSObject: DataProviderSupported { }
-
 extension KVCodable {
   
   /**
