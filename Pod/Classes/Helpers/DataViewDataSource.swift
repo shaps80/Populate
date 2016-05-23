@@ -130,4 +130,13 @@ protocol DataViewDataSourceDelegate: class {
    */
   func cellForItemAtIndexPath(indexPath: NSIndexPath) -> DataCell
   
+  /**
+   Return the supplementary view for the specified indexPath
+   
+   - parameter indexPath: The indexPath to query
+   
+   - returns: The supplementary view for the specified indexPath
+   */
+  func supplementaryView(forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView
+  
 }

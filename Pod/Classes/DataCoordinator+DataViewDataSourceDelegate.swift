@@ -32,6 +32,10 @@ extension DataCoordinator: DataViewDataSourceDelegate {
     return cellProvider.dataCoordinator(dataView, cellConfigurationForIndexPath: indexPath).cell
   }
   
+  func supplementaryView(forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    return supplementaryViewProvider?.dataCoordinator(dataView, supplementaryViewConfigurationForElementKind: elementKind, indexPath: indexPath)?.view ?? UICollectionReusableView()
+  }
+  
   func numberOfSections() -> Int {
     return dataProvider.numberOfSections()
   }

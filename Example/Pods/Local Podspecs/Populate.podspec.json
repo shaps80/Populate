@@ -1,7 +1,7 @@
 {
   "name": "Populate",
   "version": "1.0",
-  "summary": "A short description of Populate.",
+  "summary": "Populate your views with NSFetchedResultsController-like behaviour. 100% Swift, type-safe protocol-orientated design.",
   "homepage": "https://github.com/shaps80/Populate",
   "license": "MIT",
   "authors": {

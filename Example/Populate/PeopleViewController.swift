@@ -23,7 +23,7 @@
 import UIKit
 import Populate
 
-class PeopleViewController: UIViewController, DataCoordinatorCellProviding, DataCoordinatorDelegate {
+class PeopleViewController: UIViewController, CellProviding, DataCoordinatorDelegate {
 
   @IBOutlet var tableView: UITableView!
   private var dataCoordinator: DataCoordinator<UITableView, ArrayDataProvider<Person>>?

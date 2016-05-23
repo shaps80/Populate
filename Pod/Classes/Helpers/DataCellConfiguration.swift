@@ -53,3 +53,22 @@ public struct DataCellConfiguration {
   }
     
 }
+
+public struct SupplementaryViewConfiguration {
+  
+  public unowned let view: UICollectionReusableView
+  
+  public init<C: UICollectionReusableView, V: DataView>(dataView: V, elementKind: String, reuseIdentifier: String, indexPath: NSIndexPath, registerView: Bool = true, @noescape configuration: (C) -> Void) {
+    if registerView {
+      dataView.registerClass(C.classForCoder(), forSupplementaryViewOfKind: elementKind, withReuseIdentifier: reuseIdentifier)
+    }
+    
+    guard let view = dataView.dequeueReusableSupplementaryViewOfKind(elementKind, withReuseIdentifier: reuseIdentifier, forIndexPath: indexPath) as? C else {
+      fatalError("Invalid cell type returned!")
+    }
+    
+    configuration(view)
+    self.view = view
+  }
+  
+}

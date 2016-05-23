@@ -56,3 +56,36 @@ extension DataViewDataSource: UITableViewDataSource {
   }
   
 }
+
+// MARK: - This extension proxies the a UICollectionViewDataSource's calls back to the dataCoordinator's delegate
+extension DataViewDataSource: UICollectionViewDataSource {
+  
+  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    return delegate?.numberOfSections() ?? 0
+  }
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return delegate?.numberOfRows(inSection: section) ?? 0
+  }
+  
+  func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    return delegate?.supplementaryView(forElementKind: kind, atIndexPath: indexPath) ?? UICollectionReusableView()
+  }
+  
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    guard let cell = delegate?.cellForItemAtIndexPath(indexPath) as? UICollectionViewCell else {
+      fatalError("Invalid cell type found")
+    }
+    
+    return cell
+  }
+  
+  func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    return delegate?.canMoveCell(atIndexPath: indexPath) ?? false
+  }
+  
+  func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    delegate?.move(sourceIndexPath, destinationIndexPath)
+  }
+
+}

@@ -25,6 +25,8 @@ import UIKit
 /// A class conforming to this protocol, can provide cells to a DataCoordinator's DataView
 public protocol DataCell: class {
   
+  static var reuseIdentifier: String { get }
+  
   /// The reuse identifier associated with this cell
   var reuseIdentifier: String? { get }
   
@@ -37,9 +39,24 @@ public protocol DataCell: class {
   
 }
 
+extension DataCell {
+  
+  public static var reuseIdentifier: String {
+    return NSStringFromClass(self).componentsSeparatedByString(".").last!
+  }
+  
+}
+
+extension UICollectionReusableView {
+  
+  public static var kind: String {
+    return NSStringFromClass(self).componentsSeparatedByString(".").last!
+  }
+  
+}
+
 extension UICollectionViewCell: DataCell { }
 extension UITableViewCell: DataCell { }
-
 
 /// A class conforming to this protocol, can provide a DataView to a DataCoordinator
 public protocol DataView: class {
@@ -72,12 +89,30 @@ public protocol DataView: class {
   func registerClass(cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String)
   
   /**
+   Registers the specified class with the view
+   
+   - parameter viewClass:   The cell class to register
+   - parameter elementKind: The kind of element to register
+   - parameter identifier:  The identifier to use for this registration
+   */
+  func registerClass(viewClass: AnyClass?, forSupplementaryViewOfKind elementKind: String, withReuseIdentifier identifier: String)
+  
+  /**
    Dequeues a cell with the specified reuse identifier
    
    - parameter identifier: The reuse identifier associated with this cell
    - parameter indexPath:  The indexPath the cell will be inserted into
    */
   func dequeueCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> DataCell
+  
+  /**
+   Dequeues a supplementary view with the specified reuse identifier
+   
+   - parameter elementKind: The kind of element to dequeue
+   - parameter identifier:  the reuse identifier associated with this view
+   - parameter indexPath:   The indexPath the view will be inserted into
+   */
+  func dequeueReusableSupplementaryViewOfKind(elementKind: String, withReuseIdentifier identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionReusableView
   
   /**
    Inserts the specified sections

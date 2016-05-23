@@ -22,6 +22,14 @@
 
 import Foundation
 
+extension DataCoordinator where V: UICollectionView {
+  
+  public convenience init(dataView: V, cellAndSupplementaryViewProvider provider: CellAndSupplementaryViewProviding, @noescape dataProvider: () -> D) {
+    self.init(dataView: dataView, cellProvider: provider, supplementaryViewProvider: provider, dataProvider: dataProvider)
+  }
+  
+}
+
 /// The Data Coordinator is the central interface for working with the library. The coordinator is responsible for coordinating events between its associated Data View and Data Provider
 public final class DataCoordinator<V: DataView, D: DataProvider>
 {
@@ -33,7 +41,10 @@ public final class DataCoordinator<V: DataView, D: DataProvider>
   private var dataViewDataSource: DataViewDataSource // we need to keep a ref since we are the only owner
   
   /// The cell provider is responsible for returning cell configurations
-  unowned var cellProvider: DataCoordinatorCellProviding
+  unowned var cellProvider: CellProviding
+  
+  /// The supplementary view provider is responsible for returning a reusable view
+  weak var supplementaryViewProvider: CellAndSupplementaryViewProviding?
   
   /// A delegate that can respond to dataView delegate calls
   public weak var delegate: DataCoordinatorDelegate?
@@ -53,10 +64,15 @@ public final class DataCoordinator<V: DataView, D: DataProvider>
    
    - returns: A newly configured coordinator
    */
-  public init(dataView: V, cellProvider: DataCoordinatorCellProviding, @noescape dataProvider: () -> D) {
+  public convenience init(dataView: V, cellProvider: CellProviding, @noescape dataProvider: () -> D) {
+    self.init(dataView: dataView, cellProvider: cellProvider, supplementaryViewProvider: nil, dataProvider: dataProvider)
+  }
+  
+  init(dataView: V, cellProvider: CellProviding, supplementaryViewProvider: CellAndSupplementaryViewProviding?, @noescape dataProvider: () -> D) {
     self.dataView = dataView
     self.dataProvider = dataProvider()
     self.cellProvider = cellProvider
+    self.supplementaryViewProvider = supplementaryViewProvider
     
     dataViewDataSource = DataViewDataSource()
     

@@ -30,6 +30,14 @@ extension UITableView: DataView {
     registerClass(cellClass, forCellReuseIdentifier: identifier)
   }
   
+  public func registerClass(viewClass: AnyClass?, forSupplementaryViewOfKind elementKind: String, withReuseIdentifier identifier: String) {
+    // not supported
+  }
+  
+  public func dequeueReusableSupplementaryViewOfKind(elementKind: String, withReuseIdentifier identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    return UICollectionReusableView()
+  }
+  
   public func dequeueCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> DataCell {
     return dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath)
   }

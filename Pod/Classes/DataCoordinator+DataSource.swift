@@ -23,8 +23,12 @@
 import Foundation
 
 /// An class conforming to this protocol can provide DataCell's to a DataCoordinator
-public protocol DataCoordinatorCellProviding: class {
+public protocol CellProviding: class {
   func dataCoordinator<V: DataView>(dataView: V, cellConfigurationForIndexPath indexPath: NSIndexPath) -> DataCellConfiguration
+}
+
+public protocol CellAndSupplementaryViewProviding: CellProviding {
+  func dataCoordinator<V: DataView>(dataView: V, supplementaryViewConfigurationForElementKind kind: String, indexPath: NSIndexPath) -> SupplementaryViewConfiguration?
 }
 
 /// A class conforming to this protocol can delegate dataView calls
@@ -35,4 +39,5 @@ public protocol DataCoordinatorCellProviding: class {
   optional func dataCoordinator(canMoveAtIndexPath indexPath: NSIndexPath) -> Bool
   optional func dataCoordinator(commitEditing type: DataViewEditType, atIndexPath indexPath: NSIndexPath)
   optional func dataCoordinator(moveItemFromIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
+  optional func dataCoordinator(supplementaryViewAtIndexPath indexPath: NSIndexPath) -> UICollectionReusableView
 }
