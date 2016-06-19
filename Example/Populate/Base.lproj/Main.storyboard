@@ -43,25 +43,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bes-Z4-iGv" id="dzA-31-bcV">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wHU-g9-45P">
-                                                    <rect key="frame" x="252" y="7" width="97" height="30"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="E64-90-nBb"/>
-                                                        <constraint firstAttribute="width" constant="97" id="YDz-hM-DtN"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="wHU-g9-45P" firstAttribute="centerY" secondItem="dzA-31-bcV" secondAttribute="centerY" id="S8c-KJ-afJ"/>
-                                                <constraint firstItem="wHU-g9-45P" firstAttribute="centerX" secondItem="dzA-31-bcV" secondAttribute="centerX" id="ai6-zp-j2E"/>
-                                            </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="textField" destination="wHU-g9-45P" id="y43-tl-LlY"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>

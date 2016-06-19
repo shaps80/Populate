@@ -37,7 +37,7 @@ class PeopleViewController: UIViewController, CellProviding, DataCoordinatorDele
         Person(name: "Anne", address: Address(postcode: "W5")),
         Person(name: "Neil", address: Address(postcode: "N1")),
         Person(name: "Neil", address: Address(postcode: "A1")),
-        Person(name: "Daniela", address: Address(postcode: "N1")),
+        Person(name: "Daniela", address: Address(postcode: "SS1")),
         Person(name: "Luciano", address: Address(postcode: "SW4")),
       ])
       

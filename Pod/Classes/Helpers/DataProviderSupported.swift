@@ -88,10 +88,14 @@ extension KVCodable {
     }
     
     var mirror = Mirror(reflecting: self)
-
+    
     for key in keys {
+//      var keyFound = false
+      
       for child in mirror.children {
         if key == child.label {
+//          keyFound = true
+          
           if child.label == keys.last {
             return child.value
           } else {
@@ -100,8 +104,12 @@ extension KVCodable {
           }
         }
       }
+      
+//      if !keyFound {
+//        fatalError("KeyPath: \(keyPath) is not valid for key: \(key)")
+//      }
     }
-    
+
     return nil
   }
   
