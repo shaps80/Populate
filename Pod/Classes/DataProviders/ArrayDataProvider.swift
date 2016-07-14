@@ -59,7 +59,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
   public var itemChangeHandler: DataProviderItemChangeHandlerBlock?
   
   /// Get/set the reload handler function associated with this provider
-  public var reloadHandler: (Void -> Void)? {
+  public var reloadHandler: ((Void) -> Void)? {
     didSet { reload() }
   }
   
@@ -82,7 +82,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - returns: Self -- can be used for chaining
    */
-  public func sort(isOrderedBefore: (T, T) -> Bool) -> Self {
+  public func sort(_ isOrderedBefore: (T, T) -> Bool) -> Self {
     itemSort.append(isOrderedBefore)
     return self
   }
@@ -94,7 +94,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - returns: Self -- can be used for chaining
    */
-  public func filter(includeElement: (T) -> Bool) -> Self {
+  public func filter(_ includeElement: (T) -> Bool) -> Self {
     filter = includeElement
     return self
   }
@@ -106,18 +106,18 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - returns: The associated item if it exists, nil otherwise
    */
-  public func itemAtIndexPath(indexPath: NSIndexPath) -> T? {
-    guard sections.indices.contains(indexPath.section) else {
+  public func itemAtIndexPath(_ indexPath: IndexPath) -> T? {
+    guard sections.indices.contains((indexPath as NSIndexPath).section) else {
       return nil
     }
     
-    let section = sections[indexPath.section]
+    let section = sections[(indexPath as NSIndexPath).section]
     
-    guard section.items.indices.contains(indexPath.item) else {
+    guard section.items.indices.contains((indexPath as NSIndexPath).item) else {
       return nil
     }
     
-    return section.items[indexPath.item]
+    return section.items[(indexPath as NSIndexPath).item]
   }
   
   /**
@@ -127,10 +127,10 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - returns: The associated indexPath if it exists, nil otherwise
    */
-  public func indexPathForItem(item: DataType) -> NSIndexPath? {
-    for (sectionIndex, section) in sections.enumerate() {
-      if let itemIndex = section.items.indexOf(item) {
-        return NSIndexPath(forItem: itemIndex, inSection: sectionIndex)
+  public func indexPathForItem(_ item: DataType) -> IndexPath? {
+    for (sectionIndex, section) in sections.enumerated() {
+      if let itemIndex = section.items.index(of: item) {
+        return IndexPath(item: itemIndex, section: sectionIndex)
       }
     }
     
@@ -153,7 +153,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - returns: The number of items
    */
-  public func numberOfItemsInSection(section: Int) -> Int {
+  public func numberOfItemsInSection(_ section: Int) -> Int {
     guard section < sections.count else {
       return 0
     }
@@ -166,23 +166,23 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - parameter item: The item to add
    */
-  public func add(item: T) {
+  public func add(_ item: T) {
     let section = sectionInfoForItem(item)
     section.items.append(item)
     items?.append(item)
     
-    if let index = sections.indexOf(section) {
-      sections.insert(section, atIndex: index)
-      sections.removeAtIndex(index)
+    if let index = sections.index(of: section) {
+      sections.insert(section, at: index)
+      sections.remove(at: index)
     }
     
-    guard let sectionIndex = sections.indexOf(section), itemIndex = section.items.indexOf(item) else {
+    guard let sectionIndex = sections.index(of: section), itemIndex = section.items.index(of: item) else {
       reload() // something went wrong -- reload to be safe
       return
     }
     
-    let indexPath = NSIndexPath(forItem: itemIndex, inSection: sectionIndex)
-    itemChangeHandler?(changeType: .Insert, source: nil, destination: indexPath)
+    let indexPath = IndexPath(item: itemIndex, section: sectionIndex)
+    itemChangeHandler?(changeType: .insert, source: nil, destination: indexPath)
   }
   
   /**
@@ -190,23 +190,23 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - parameter item: The item to delete
    */
-  public func delete(item: T) {
-    guard let index = items?.indexOf(item), indexPath = indexPathForItem(item) else {
+  public func delete(_ item: T) {
+    guard let index = items?.index(of: item), indexPath = indexPathForItem(item) else {
       return
     }
     
-    items?.removeAtIndex(index)
+    items?.remove(at: index)
     
-    let section = sections[indexPath.section]
-    section.items.removeAtIndex(indexPath.item)
+    let section = sections[(indexPath as NSIndexPath).section]
+    section.items.remove(at: (indexPath as NSIndexPath).item)
     
     if section.items.count == 0 {
-      sections.removeAtIndex(indexPath.section)
-      sectionChangeHandler?(changeType: .Delete, sectionIndex: indexPath.section)
+      sections.remove(at: (indexPath as NSIndexPath).section)
+      sectionChangeHandler?(changeType: .delete, sectionIndex: (indexPath as NSIndexPath).section)
       return
     }
     
-    itemChangeHandler?(changeType: .Delete, source: indexPath, destination: nil)
+    itemChangeHandler?(changeType: .delete, source: indexPath, destination: nil)
   }
   
   /**
@@ -214,7 +214,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - parameter indexPath: The indexPath to delete
    */
-  public func delete(atIndexPath indexPath: NSIndexPath) {
+  public func delete(atIndexPath indexPath: IndexPath) {
     guard let item = itemAtIndexPath(indexPath) else {
       fatalError("No item to delete at \(indexPath)")
     }
@@ -228,17 +228,17 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    - parameter indexPath: The indexPath to replace
    - parameter newItem:   The new item
    */
-  public func updateItem(atIndexPath indexPath: NSIndexPath, withItem newItem: T) {
+  public func updateItem(atIndexPath indexPath: IndexPath, withItem newItem: T) {
     guard let _ = itemAtIndexPath(indexPath) else {
       fatalError("No item to replace at \(indexPath)")
     }
     
-    let section = sections[indexPath.section]
+    let section = sections[(indexPath as NSIndexPath).section]
     
-    section.items.removeAtIndex(indexPath.item)
-    section.items.insert(newItem, atIndex: indexPath.item)
+    section.items.remove(at: (indexPath as NSIndexPath).item)
+    section.items.insert(newItem, at: (indexPath as NSIndexPath).item)
     
-    itemChangeHandler?(changeType: .Update, source: indexPath, destination: nil)
+    itemChangeHandler?(changeType: .update, source: indexPath, destination: nil)
   }
   
   /**
@@ -248,7 +248,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - returns: The section title
    */
-  public func titleForSection(section: Int) -> String? {
+  public func titleForSection(_ section: Int) -> String? {
     if sections.indices.contains(section) {
       return sections[section].name
     }
@@ -284,7 +284,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
     }
     
     if let sort = self.itemSort.first {
-      items.sortInPlace(sort)
+      items.sort(isOrderedBefore: sort)
     }
     
     let itemSort = Array(self.itemSort.dropFirst())
@@ -301,7 +301,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
     if itemSort.count > 0 {
       for section in sections {
         for sort in itemSort {
-          section.items = section.items.sort(sort)
+          section.items = section.items.sorted(isOrderedBefore: sort)
         }
       }
     }
@@ -321,7 +321,7 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
    
    - returns: The new or existing section
    */
-  private func sectionInfoForItem(item: T) -> DataProviderSectionInfo<T> {
+  private func sectionInfoForItem(_ item: T) -> DataProviderSectionInfo<T> {
     let sectionNameKeyPath = self.sectionNameKeyPath ?? ""
     
     var value = ""
@@ -339,11 +339,11 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
     
     guard let sort = itemSort.first where sectionChangeHandler != nil else {
       sections.append(section)
-      sectionChangeHandler?(changeType: .Insert, sectionIndex: sections.count)
+      sectionChangeHandler?(changeType: .insert, sectionIndex: sections.count)
       return section
     }
     
-    let index = self.items?.sort(sort).insertionIndexOf(item, isOrderedBefore: sort)
+    let index = self.items?.sorted(isOrderedBefore: sort).insertionIndexOf(item, isOrderedBefore: sort)
     var count = 0
     var sectionIndex = 0
     
@@ -357,8 +357,8 @@ public final class ArrayDataProvider<T: DataProviderSupported>: DataProvider {
       }
     }
     
-    sections.insert(section, atIndex: sectionIndex)
-    sectionChangeHandler?(changeType: .Insert, sectionIndex: sectionIndex)
+    sections.insert(section, at: sectionIndex)
+    sectionChangeHandler?(changeType: .insert, sectionIndex: sectionIndex)
     
     return section
   }

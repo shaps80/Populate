@@ -25,7 +25,7 @@ import Foundation
 extension Array {
   
   // Simple binary search to find the insertion index
-  func insertionIndexOf(elem: Element, isOrderedBefore: (Element, Element) -> Bool) -> Int {
+  func insertionIndexOf(_ elem: Element, isOrderedBefore: (Element, Element) -> Bool) -> Int {
     var min = 0
     var max = self.count - 1
     

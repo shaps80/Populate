@@ -52,10 +52,10 @@ class PeopleViewController: UIViewController, CellProviding, DataCoordinatorDele
     dataCoordinator?.delegate = self
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { () -> Void in
+    DispatchQueue.main.after(when: DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
       self.update()
     }
   }
@@ -65,7 +65,7 @@ class PeopleViewController: UIViewController, CellProviding, DataCoordinatorDele
   }
   
   func update() {
-    let indexPath = NSIndexPath(forItem: 1, inSection: 2)
+    let indexPath = IndexPath(item: 1, section: 2)
     
     if var person = dataCoordinator?.dataProvider.itemAtIndexPath(indexPath) {
       person.name = "Mohsenin"
@@ -75,12 +75,12 @@ class PeopleViewController: UIViewController, CellProviding, DataCoordinatorDele
     let person = Person(name: "Anne Benkau", address: Address(postcode: "W34"))
     dataCoordinator?.dataProvider.add(person)
     
-    dataCoordinator?.dataProvider.delete(atIndexPath: NSIndexPath(forItem: 0, inSection: 0))
+    dataCoordinator?.dataProvider.delete(atIndexPath: IndexPath(item: 0, section: 0))
   }
   
-  func dataCoordinator<V : DataView>(dataView: V, cellConfigurationForIndexPath indexPath: NSIndexPath) -> DataCellConfiguration {
+  func dataCoordinator<V : DataView>(_ dataView: V, cellConfigurationForIndexPath indexPath: IndexPath) -> DataCellConfiguration {
     return DataCellConfiguration(dataView: dataView, reuseIdentifier: "Cell", indexPath: indexPath, configuration: { (cell: UITableViewCell) in
-      let person = dataCoordinator?.dataProvider.itemAtIndexPath(indexPath)
+      let person = self.dataCoordinator?.dataProvider.itemAtIndexPath(indexPath)
       cell.textLabel?.text = person?.name
     })
   }

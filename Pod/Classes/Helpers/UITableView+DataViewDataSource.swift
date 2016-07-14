@@ -15,15 +15,15 @@ import Foundation
 // MARK: - This extension proxies the a UITableViewDataSource's calls back to the dataCoordinator's delegate
 extension DataViewDataSource: UITableViewDataSource {
   
-  func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     return delegate?.numberOfSections() ?? 0
   }
   
-  func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return delegate?.numberOfRows(inSection: section) ?? 0
   }
   
-  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = delegate?.cellForItemAtIndexPath(indexPath) as? UITableViewCell else {
       fatalError("Invalid cell type found")
     }
@@ -31,27 +31,27 @@ extension DataViewDataSource: UITableViewDataSource {
     return cell
   }
   
-  func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     return delegate?.canEditCell(atIndexPath: indexPath) ?? false
   }
   
-  func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     delegate?.commit(DataViewEditType.fromEditingStyle(editingStyle), atIndexPath: indexPath)
   }
   
-  func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+  func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
     return delegate?.canMoveCell(atIndexPath: indexPath) ?? false
   }
   
-  func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+  func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
     delegate?.move(sourceIndexPath, destinationIndexPath)
   }
   
-  func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return delegate?.titleForHeader(inSection: section)
   }
   
-  func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+  func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
     return delegate?.titleForFooter(inSection: section)
   }
   
@@ -60,19 +60,19 @@ extension DataViewDataSource: UITableViewDataSource {
 // MARK: - This extension proxies the a UICollectionViewDataSource's calls back to the dataCoordinator's delegate
 extension DataViewDataSource: UICollectionViewDataSource {
   
-  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
     return delegate?.numberOfSections() ?? 0
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return delegate?.numberOfRows(inSection: section) ?? 0
   }
   
-  func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
     return delegate?.supplementaryView(forElementKind: kind, atIndexPath: indexPath) ?? UICollectionReusableView()
   }
   
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = delegate?.cellForItemAtIndexPath(indexPath) as? UICollectionViewCell else {
       fatalError("Invalid cell type found")
     }
@@ -80,11 +80,11 @@ extension DataViewDataSource: UICollectionViewDataSource {
     return cell
   }
   
-  func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+  func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
     return delegate?.canMoveCell(atIndexPath: indexPath) ?? false
   }
   
-  func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
     delegate?.move(sourceIndexPath, destinationIndexPath)
   }
 

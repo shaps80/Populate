@@ -22,6 +22,8 @@
 
 import UIKit
 
+public typealias DataCellConfigurationBlock<C: DataCell> = (C) -> Void
+
 /**
  *  Provides a type safe struct for providing cell configurations to a DataCoordinator
  */
@@ -39,7 +41,7 @@ public struct DataCellConfiguration {
    - parameter registerCell:    If true, the cell will be automatically registered by its class. Pass false to prevent this. Defaults to true
    - parameter configuration:   The cell configuration - will execute whenever this cell is presented on the screen
    */
-  public init<C: DataCell, V: DataView>(dataView: V, reuseIdentifier: String, indexPath: NSIndexPath, registerCell: Bool = true, @noescape configuration: (C) -> Void) {
+  public init<C: DataCell, V: DataView>(dataView: V, reuseIdentifier: String, indexPath: IndexPath, registerCell: Bool = true, configuration: DataCellConfigurationBlock<C>) {
     if registerCell {
       dataView.registerClass(C.classForCoder(), forCellWithReuseIdentifier: reuseIdentifier)
     }
@@ -58,7 +60,7 @@ public struct SupplementaryViewConfiguration {
   
   public unowned let view: UICollectionReusableView
   
-  public init<C: UICollectionReusableView, V: DataView>(dataView: V, elementKind: String, reuseIdentifier: String, indexPath: NSIndexPath, registerView: Bool = true, @noescape configuration: (C) -> Void) {
+  public init<C: UICollectionReusableView, V: DataView>(dataView: V, elementKind: String, reuseIdentifier: String, indexPath: IndexPath, registerView: Bool = true, configuration: DataCellConfigurationBlock<C>) {
     if registerView {
       dataView.registerClass(C.classForCoder(), forSupplementaryViewOfKind: elementKind, withReuseIdentifier: reuseIdentifier)
     }

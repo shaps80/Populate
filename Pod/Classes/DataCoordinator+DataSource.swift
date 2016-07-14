@@ -24,20 +24,20 @@ import Foundation
 
 /// An class conforming to this protocol can provide DataCell's to a DataCoordinator
 public protocol CellProviding: class {
-  func dataCoordinator<V: DataView>(dataView: V, cellConfigurationForIndexPath indexPath: NSIndexPath) -> DataCellConfiguration
+  func dataCoordinator<V: DataView>(_ dataView: V, cellConfigurationForIndexPath indexPath: IndexPath) -> DataCellConfiguration
 }
 
 public protocol CellAndSupplementaryViewProviding: CellProviding {
-  func dataCoordinator<V: DataView>(dataView: V, supplementaryViewConfigurationForElementKind kind: String, indexPath: NSIndexPath) -> SupplementaryViewConfiguration?
+  func dataCoordinator<V: DataView>(_ dataView: V, supplementaryViewConfigurationForElementKind kind: String, indexPath: IndexPath) -> SupplementaryViewConfiguration?
 }
 
 /// A class conforming to this protocol can delegate dataView calls
 @objc public protocol DataCoordinatorDelegate: class {
-  optional func dataCoordinator(titleForHeaderInSection section: Int) -> String?
-  optional func dataCoordinator(titleForFooterInSection section: Int) -> String?
-  optional func dataCoordinator(canEditIndexPath indexPath: NSIndexPath) -> Bool
-  optional func dataCoordinator(canMoveAtIndexPath indexPath: NSIndexPath) -> Bool
-  optional func dataCoordinator(commitEditing type: DataViewEditType, atIndexPath indexPath: NSIndexPath)
-  optional func dataCoordinator(moveItemFromIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath)
-  optional func dataCoordinator(supplementaryViewAtIndexPath indexPath: NSIndexPath) -> UICollectionReusableView
+  @objc optional func dataCoordinator(titleForHeaderInSection section: Int) -> String?
+  @objc optional func dataCoordinator(titleForFooterInSection section: Int) -> String?
+  @objc optional func dataCoordinator(canEditIndexPath indexPath: IndexPath) -> Bool
+  @objc optional func dataCoordinator(canMoveAtIndexPath indexPath: IndexPath) -> Bool
+  @objc optional func dataCoordinator(commitEditing type: DataViewEditType, atIndexPath indexPath: IndexPath)
+  @objc optional func dataCoordinator(moveItemFromIndexPath sourceIndexPath: IndexPath, toIndexPath destinationIndexPath: IndexPath)
+  @objc optional func dataCoordinator(supplementaryViewAtIndexPath indexPath: IndexPath) -> UICollectionReusableView
 }

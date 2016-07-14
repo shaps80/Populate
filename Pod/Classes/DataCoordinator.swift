@@ -24,11 +24,13 @@ import Foundation
 
 extension DataCoordinator where V: UICollectionView {
   
-  public convenience init(dataView: V, cellAndSupplementaryViewProvider provider: CellAndSupplementaryViewProviding, @noescape dataProvider: () -> D) {
+  public convenience init(dataView: V, cellAndSupplementaryViewProvider provider: CellAndSupplementaryViewProviding, dataProvider: DataProviderInitializationBlock<D>) {
     self.init(dataView: dataView, cellProvider: provider, supplementaryViewProvider: provider, dataProvider: dataProvider)
   }
   
 }
+
+public typealias DataProviderInitializationBlock<D> = () -> D
 
 /// The Data Coordinator is the central interface for working with the library. The coordinator is responsible for coordinating events between its associated Data View and Data Provider
 public final class DataCoordinator<V: DataView, D: DataProvider>
@@ -64,11 +66,11 @@ public final class DataCoordinator<V: DataView, D: DataProvider>
    
    - returns: A newly configured coordinator
    */
-  public convenience init(dataView: V, cellProvider: CellProviding, @noescape dataProvider: () -> D) {
+  public convenience init(dataView: V, cellProvider: CellProviding, dataProvider: DataProviderInitializationBlock<D>) {
     self.init(dataView: dataView, cellProvider: cellProvider, supplementaryViewProvider: nil, dataProvider: dataProvider)
   }
   
-  init(dataView: V, cellProvider: CellProviding, supplementaryViewProvider: CellAndSupplementaryViewProviding?, @noescape dataProvider: () -> D) {
+  init(dataView: V, cellProvider: CellProviding, supplementaryViewProvider: CellAndSupplementaryViewProviding?, dataProvider: DataProviderInitializationBlock<D>) {
     self.dataView = dataView
     self.dataProvider = dataProvider()
     self.cellProvider = cellProvider
@@ -92,29 +94,29 @@ public final class DataCoordinator<V: DataView, D: DataProvider>
     dataView.reloadData()
   }
   
-  private func dataProviderSectionChangeHandler(changeType: DataProviderChangeType, sectionIndex: Int) {
+  private func dataProviderSectionChangeHandler(_ changeType: DataProviderChangeType, sectionIndex: Int) {
     switch changeType {
-    case .Insert: dataView.insertSections(NSIndexSet(index: sectionIndex))
-    case .Delete: dataView.deleteSections(NSIndexSet(index: sectionIndex))
+    case .insert: dataView.insertSections(IndexSet(integer: sectionIndex))
+    case .delete: dataView.deleteSections(IndexSet(integer: sectionIndex))
     default: break
     }
   }
   
-  private func dataProviderItemChangeHandler(changeType: DataProviderChangeType, source: NSIndexPath?, destination: NSIndexPath?) {
+  private func dataProviderItemChangeHandler(_ changeType: DataProviderChangeType, source: IndexPath?, destination: IndexPath?) {
     guard source != nil || destination != nil else {
       dataView.reloadData()
       return
     }
     
     switch changeType {
-    case .Insert:
+    case .insert:
       dataView.insertItemsAtIndexPaths([destination!])
-    case .Delete:
+    case .delete:
       dataView.deleteItemsAtIndexPaths([source!])
-    case .Move:
+    case .move:
       dataView.deleteItemsAtIndexPaths([source!])
       dataView.insertItemsAtIndexPaths([destination!])
-    case .Update:
+    case .update:
       dataView.reloadItemsAtIndexPaths([source!])
     }
   }

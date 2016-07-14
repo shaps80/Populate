@@ -120,8 +120,8 @@ extension Array where Element: SectionInfo {
    
    - returns: True, if the array contains the element, false otherwise
    */
-  func contains(element: Element) -> Bool {
-    if let _ = indexOf(element) {
+  func contains(_ element: Element) -> Bool {
+    if let _ = index(of: element) {
       return true
     }
     

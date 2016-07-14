@@ -26,8 +26,8 @@ extension UICollectionView: DataView {
   
   public typealias DataSourceType = UICollectionViewDataSource
   
-  public func dequeueCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> DataCell {
-    return dequeueReusableCellWithReuseIdentifier(identifier, forIndexPath: indexPath) as DataCell
+  public func dequeueCellWithReuseIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> DataCell {
+    return dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as DataCell
   }
   
 }

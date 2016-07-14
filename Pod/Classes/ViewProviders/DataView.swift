@@ -42,7 +42,7 @@ public protocol DataCell: class {
 extension DataCell {
   
   public static var reuseIdentifier: String {
-    return NSStringFromClass(self).componentsSeparatedByString(".").last!
+    return NSStringFromClass(self).components(separatedBy: ".").last!
   }
   
 }
@@ -50,7 +50,7 @@ extension DataCell {
 extension UICollectionReusableView {
   
   public static var kind: String {
-    return NSStringFromClass(self).componentsSeparatedByString(".").last!
+    return NSStringFromClass(self).components(separatedBy: ".").last!
   }
   
 }
@@ -78,7 +78,7 @@ public protocol DataView: class {
    - parameter updates:    The updates to perform
    - parameter completion: This will be executed when all updates have completed
    */
-  func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?)
+  func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?)
   
   /**
    Registers the specified class with the view
@@ -86,7 +86,7 @@ public protocol DataView: class {
    - parameter cellClass:  The cell class to register
    - parameter identifier: The identifier to use for this registration
    */
-  func registerClass(cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String)
+  func registerClass(_ cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String)
   
   /**
    Registers the specified class with the view
@@ -95,7 +95,7 @@ public protocol DataView: class {
    - parameter elementKind: The kind of element to register
    - parameter identifier:  The identifier to use for this registration
    */
-  func registerClass(viewClass: AnyClass?, forSupplementaryViewOfKind elementKind: String, withReuseIdentifier identifier: String)
+  func registerClass(_ viewClass: AnyClass?, forSupplementaryViewOfKind elementKind: String, withReuseIdentifier identifier: String)
   
   /**
    Dequeues a cell with the specified reuse identifier
@@ -103,7 +103,7 @@ public protocol DataView: class {
    - parameter identifier: The reuse identifier associated with this cell
    - parameter indexPath:  The indexPath the cell will be inserted into
    */
-  func dequeueCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> DataCell
+  func dequeueCellWithReuseIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> DataCell
   
   /**
    Dequeues a supplementary view with the specified reuse identifier
@@ -112,28 +112,28 @@ public protocol DataView: class {
    - parameter identifier:  the reuse identifier associated with this view
    - parameter indexPath:   The indexPath the view will be inserted into
    */
-  func dequeueReusableSupplementaryViewOfKind(elementKind: String, withReuseIdentifier identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionReusableView
+  func dequeueReusableSupplementaryViewOfKind(_ elementKind: String, withReuseIdentifier identifier: String, forIndexPath indexPath: IndexPath) -> UICollectionReusableView
   
   /**
    Inserts the specified sections
    
    - parameter sections: The sections to insert
    */
-  func insertSections(sections: NSIndexSet)
+  func insertSections(_ sections: IndexSet)
   
   /**
    Deletes the specified sections
    
    - parameter sections: The sections to delete
    */
-  func deleteSections(sections: NSIndexSet)
+  func deleteSections(_ sections: IndexSet)
   
   /**
    Reloads the specified sections
    
    - parameter sections: The sections to reload
    */
-  func reloadSections(sections: NSIndexSet)
+  func reloadSections(_ sections: IndexSet)
   
   /**
    Moves the specified section
@@ -141,28 +141,28 @@ public protocol DataView: class {
    - parameter section:    The old section index
    - parameter newSection: The new section index
    */
-  func moveSection(section: Int, toSection newSection: Int)
+  func moveSection(_ section: Int, toSection newSection: Int)
   
   /**
    Inserts the items at the specified indexPaths
    
    - parameter indexPaths: The indexPaths to insert
    */
-  func insertItemsAtIndexPaths(indexPaths: [NSIndexPath])
+  func insertItemsAtIndexPaths(_ indexPaths: [IndexPath])
   
   /**
    Delete the items at the specified indexPaths
    
    - parameter indexPaths: The indexPaths to delete
    */
-  func deleteItemsAtIndexPaths(indexPaths: [NSIndexPath])
+  func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath])
   
   /**
    Reloads the items at the specified indexPaths
    
    - parameter indexPaths: The indexPaths to reload
    */
-  func reloadItemsAtIndexPaths(indexPaths: [NSIndexPath])
+  func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath])
   
   /**
    Moves the item at the specified indexPath
@@ -170,6 +170,6 @@ public protocol DataView: class {
    - parameter indexPath:    The old indexPath
    - parameter newIndexPath: The new indexPath
    */
-  func moveItemAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath)
+  func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath)
 
 }

@@ -26,55 +26,55 @@ extension UITableView: DataView {
   
   public typealias DataSourceType = UITableViewDataSource
   
-  public func registerClass(cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String) {
-    registerClass(cellClass, forCellReuseIdentifier: identifier)
+  public func registerClass(_ cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String) {
+    register(cellClass, forCellReuseIdentifier: identifier)
   }
   
-  public func registerClass(viewClass: AnyClass?, forSupplementaryViewOfKind elementKind: String, withReuseIdentifier identifier: String) {
+  public func registerClass(_ viewClass: AnyClass?, forSupplementaryViewOfKind elementKind: String, withReuseIdentifier identifier: String) {
     // not supported
   }
   
-  public func dequeueReusableSupplementaryViewOfKind(elementKind: String, withReuseIdentifier identifier: String, forIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+  public func dequeueReusableSupplementaryViewOfKind(_ elementKind: String, withReuseIdentifier identifier: String, forIndexPath indexPath: IndexPath) -> UICollectionReusableView {
     return UICollectionReusableView()
   }
   
-  public func dequeueCellWithReuseIdentifier(identifier: String, forIndexPath indexPath: NSIndexPath) -> DataCell {
-    return dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath)
+  public func dequeueCellWithReuseIdentifier(_ identifier: String, forIndexPath indexPath: IndexPath) -> DataCell {
+    return dequeueReusableCell(withIdentifier: identifier, for: indexPath)
   }
   
-  public func performBatchUpdates(updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
+  public func performBatchUpdates(_ updates: (() -> Void)?, completion: ((Bool) -> Void)?) {
     beginUpdates()
     updates?()
     endUpdates()
     completion?(true)
   }
   
-  public func insertSections(sections: NSIndexSet) {
-    insertSections(sections, withRowAnimation: .Fade)
+  public func insertSections(_ sections: IndexSet) {
+    insertSections(sections, with: .fade)
   }
   
-  public func deleteSections(sections: NSIndexSet) {
-    deleteSections(sections, withRowAnimation: .Fade)
+  public func deleteSections(_ sections: IndexSet) {
+    deleteSections(sections, with: .fade)
   }
   
-  public func reloadSections(sections: NSIndexSet) {
-    reloadSections(sections, withRowAnimation: .Fade)
+  public func reloadSections(_ sections: IndexSet) {
+    reloadSections(sections, with: .fade)
   }
   
-  public func insertItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
-    insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+  public func insertItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    insertRows(at: indexPaths, with: .fade)
   }
   
-  public func deleteItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
-    deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Fade)
+  public func deleteItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    deleteRows(at: indexPaths, with: .fade)
   }
   
-  public func reloadItemsAtIndexPaths(indexPaths: [NSIndexPath]) {
-    reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+  public func reloadItemsAtIndexPaths(_ indexPaths: [IndexPath]) {
+    reloadRows(at: indexPaths, with: .automatic)
   }
   
-  public func moveItemAtIndexPath(indexPath: NSIndexPath, toIndexPath newIndexPath: NSIndexPath) {
-    moveRowAtIndexPath(indexPath, toIndexPath: newIndexPath)
+  public func moveItemAtIndexPath(_ indexPath: IndexPath, toIndexPath newIndexPath: IndexPath) {
+    moveRow(at: indexPath, to: newIndexPath)
   }
   
 }

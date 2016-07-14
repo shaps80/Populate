@@ -28,11 +28,11 @@ extension DataCoordinator: DataViewDataSourceDelegate {
   
   // MARK: DataViewDataSourceDelegate Methods
   
-  func cellForItemAtIndexPath(indexPath: NSIndexPath) -> DataCell {
+  func cellForItemAtIndexPath(_ indexPath: IndexPath) -> DataCell {
     return cellProvider.dataCoordinator(dataView, cellConfigurationForIndexPath: indexPath).cell
   }
   
-  func supplementaryView(forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+  func supplementaryView(forElementKind elementKind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView {
     return supplementaryViewProvider?.dataCoordinator(dataView, supplementaryViewConfigurationForElementKind: elementKind, indexPath: indexPath)?.view ?? UICollectionReusableView()
   }
   
@@ -44,19 +44,19 @@ extension DataCoordinator: DataViewDataSourceDelegate {
     return dataProvider.numberOfItemsInSection(section)
   }
   
-  func canEditCell(atIndexPath indexPath: NSIndexPath) -> Bool {
+  func canEditCell(atIndexPath indexPath: IndexPath) -> Bool {
     return delegate?.dataCoordinator?(canEditIndexPath: indexPath) ?? false
   }
   
-  func commit(editingType: DataViewEditType, atIndexPath indexPath: NSIndexPath) {
+  func commit(_ editingType: DataViewEditType, atIndexPath indexPath: IndexPath) {
     delegate?.dataCoordinator?(commitEditing: editingType, atIndexPath: indexPath)
   }
   
-  func canMoveCell(atIndexPath indexPath: NSIndexPath) -> Bool {
+  func canMoveCell(atIndexPath indexPath: IndexPath) -> Bool {
     return delegate?.dataCoordinator?(canMoveAtIndexPath: indexPath) ?? false
   }
   
-  func move(sourceIndexPath: NSIndexPath, _ destinationIndexPath: NSIndexPath) {
+  func move(_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath) {
     delegate?.dataCoordinator?(moveItemFromIndexPath: sourceIndexPath, toIndexPath: destinationIndexPath)
   }
   

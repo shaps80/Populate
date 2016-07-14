@@ -28,7 +28,7 @@ public typealias DataProviderSectionChangeHandlerBlock = (changeType: DataProvid
 
 
 /// Defines a change handler for item events
-public typealias DataProviderItemChangeHandlerBlock = (changeType: DataProviderChangeType, source: NSIndexPath?, destination: NSIndexPath?) -> Void
+public typealias DataProviderItemChangeHandlerBlock = (changeType: DataProviderChangeType, source: IndexPath?, destination: IndexPath?) -> Void
 
 
 /**
@@ -38,19 +38,19 @@ public enum DataProviderChangeType {
   /**
    *  An item was inserted into the model
    */
-  case Insert
+  case insert
   /**
    *  An item was deleted from the model
    */
-  case Delete
+  case delete
   /**
    *  An item was moved inside the model
    */
-  case Move
+  case move
   /**
    *  An item was changed inside the model
    */
-  case Update
+  case update
 }
 
 
@@ -67,7 +67,7 @@ public protocol DataProvider: class {
   var itemChangeHandler: DataProviderItemChangeHandlerBlock? { get set }
   
   /// This function will be executed when a reload is required
-  var reloadHandler: (Void -> Void)? { get set }
+  var reloadHandler: ((Void) -> Void)? { get set }
   
   /// Defines the section-name keyPath to use for grouping results
   var sectionNameKeyPath: String? { get set }
@@ -89,7 +89,7 @@ public protocol DataProvider: class {
    
    - returns: The number of items
    */
-  func numberOfItemsInSection(section: Int) -> Int
+  func numberOfItemsInSection(_ section: Int) -> Int
   
   /**
    Returns the item at the specified indexPath if it exists, nil otherwise
@@ -98,7 +98,7 @@ public protocol DataProvider: class {
    
    - returns: The associated item if it exists, nil otherwise
    */
-  func itemAtIndexPath(indexPath: NSIndexPath) -> DataType?
+  func itemAtIndexPath(_ indexPath: IndexPath) -> DataType?
   
   /**
    Returns the indexPath of the associated item
@@ -107,7 +107,7 @@ public protocol DataProvider: class {
    
    - returns: The associated indexPath if it exists, nil otherwise
    */
-  func indexPathForItem(item: DataType) -> NSIndexPath?
+  func indexPathForItem(_ item: DataType) -> IndexPath?
   
   /**
    Returns the title for the specified section
@@ -116,6 +116,6 @@ public protocol DataProvider: class {
    
    - returns: The section title
    */
-  func titleForSection(section: Int) -> String?
+  func titleForSection(_ section: Int) -> String?
   
 }

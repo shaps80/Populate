@@ -30,9 +30,9 @@ import UIKit
  - Delete: A delete
  */
 @objc public enum DataViewEditType: Int {
-  case None
-  case Insert
-  case Delete
+  case none
+  case insert
+  case delete
   
   /**
    Converts a UITableViewCellEditingStyle to a DataViewEditType
@@ -41,11 +41,11 @@ import UIKit
    
    - returns: A UITableViewCellEditingStyle
    */
-  static func fromEditingStyle(style: UITableViewCellEditingStyle) -> DataViewEditType {
+  static func fromEditingStyle(_ style: UITableViewCellEditingStyle) -> DataViewEditType {
     switch style {
-    case .None: return .None
-    case .Insert: return .Insert
-    case .Delete: return .Delete
+    case .none: return .none
+    case .insert: return .insert
+    case .delete: return .delete
     }
   }
 }
@@ -76,7 +76,7 @@ protocol DataViewDataSourceDelegate: class {
    
    - returns: True if editing is allowed, false otherwise
    */
-  func canEditCell(atIndexPath indexPath: NSIndexPath) -> Bool
+  func canEditCell(atIndexPath indexPath: IndexPath) -> Bool
   
   /**
    Commits the specified changes
@@ -84,7 +84,7 @@ protocol DataViewDataSourceDelegate: class {
    - parameter editingType: The editType that was attempted
    - parameter indexPath:   The indexPath that is impacted by this change
    */
-  func commit(editingType: DataViewEditType, atIndexPath indexPath: NSIndexPath)
+  func commit(_ editingType: DataViewEditType, atIndexPath indexPath: IndexPath)
   
   /**
    Return true if moving is allowed, false otherwise
@@ -93,7 +93,7 @@ protocol DataViewDataSourceDelegate: class {
    
    - returns: True if moving is allowed, false otherwise
    */
-  func canMoveCell(atIndexPath indexPath: NSIndexPath) -> Bool
+  func canMoveCell(atIndexPath indexPath: IndexPath) -> Bool
   
   /**
    Moves the item from sourceIndexPath to destinationIndexPath
@@ -101,7 +101,7 @@ protocol DataViewDataSourceDelegate: class {
    - parameter sourceIndexPath:      The old indexPath
    - parameter destinationIndexPath: The new indexPath
    */
-  func move(sourceIndexPath: NSIndexPath, _ destinationIndexPath: NSIndexPath)
+  func move(_ sourceIndexPath: IndexPath, _ destinationIndexPath: IndexPath)
 
   /**
    Return the header title for the specified section
@@ -128,7 +128,7 @@ protocol DataViewDataSourceDelegate: class {
    
    - returns: The cell for the specified indexPath
    */
-  func cellForItemAtIndexPath(indexPath: NSIndexPath) -> DataCell
+  func cellForItemAtIndexPath(_ indexPath: IndexPath) -> DataCell
   
   /**
    Return the supplementary view for the specified indexPath
@@ -137,6 +137,6 @@ protocol DataViewDataSourceDelegate: class {
    
    - returns: The supplementary view for the specified indexPath
    */
-  func supplementaryView(forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView
+  func supplementaryView(forElementKind elementKind: String, atIndexPath indexPath: IndexPath) -> UICollectionReusableView
   
 }

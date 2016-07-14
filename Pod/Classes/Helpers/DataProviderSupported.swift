@@ -39,7 +39,7 @@ public protocol KVCodable {
    
    - returns: The underlying value
    */
-  func valueForKey(key : String) -> Any?
+  func valueForKey(_ key : String) -> Any?
   
   /**
    Returns the value for the specified keyPath
@@ -48,7 +48,7 @@ public protocol KVCodable {
    
    - returns: The underlying value
    */
-  func valueForKeyPath(keyPath : String) -> Any?
+  func valueForKeyPath(_ keyPath : String) -> Any?
   
 }
 
@@ -61,7 +61,7 @@ extension KVCodable {
    
    - returns: The value for the property identified by key.
    */
-  public func valueForKey(key: String) -> Any? {
+  public func valueForKey(_ key: String) -> Any? {
     let mirror = Mirror(reflecting: self)
     
     for child in mirror.children {
@@ -80,8 +80,8 @@ extension KVCodable {
    
    - returns: The value for the derived property identified by keyPath.
    */
-  public func valueForKeyPath(keyPath : String) -> Any? {
-    let keys = keyPath.componentsSeparatedByString(".")
+  public func valueForKeyPath(_ keyPath : String) -> Any? {
+    let keys = keyPath.components(separatedBy: ".")
     
     guard keys.count > 0 else {
       return nil
@@ -120,9 +120,9 @@ extension KVCodable {
    
    - returns: The unwrapped type
    */
-  private func unwrap(any: Any) -> Any {
+  private func unwrap(_ any: Any) -> Any {
     let mirror = Mirror(reflecting: any)
-    if mirror.displayStyle != .Optional {
+    if mirror.displayStyle != .optional {
       return any
     }
     
